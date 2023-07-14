@@ -1,0 +1,32 @@
+{
+	"typeDefinitions":[
+		{
+			"type":"struct",
+			"typeName":"VolumeLayer",
+			"typeLabel":"VolumeLayer",
+			"definitionCode": "#include <volumelayer.h>",
+			"connectorColor":{
+				"type":"RGB",
+				"data":[0.9,0.605,0.83
+				]
+			},
+			"variables":[
+				{
+					"typeName":"bsdf",
+					"name":"F",
+					"label":"BSDF"
+				},
+				{
+					"typeName":"vector",
+					"name":"density",
+					"label":"Density"
+				},
+				{
+					"typeName":"vector",
+					"name":"Ce",
+					"label":"Emission"
+				}
+			]
+		}
+	]
+}
