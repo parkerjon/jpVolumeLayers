@@ -1,0 +1,24 @@
+= Volume Layer Add Quantity =
+
+"""Add a component property to an input VolumeLayer struct."""
+
+== Overview ==
+
+This operator takes a VolumeLayer struct as input and converts it to material outputs and standard Houdini AOVs.
+
+This relies on the built-in [Compute Lighting|computelighting] node.  Because the implementation of that node is not guaranteed by Side Effects to be stable, the internal outputs of this node may also change between Houdini versions.
+
+@inputs
+volumelayer:
+    VolumeLayer to modify
+
+@related
+
+* [Volume Layer Merge|Node:vop/jparker--volumelayermerge]
+* [Volume Layer Shader|Node:vop/jparker--volumelayershader]
+* [Volume Layer Mix|Node:vop/jparker--volumelayermix]
+* [Volume Layer Add Quantity|Node:vop/jparker--volumelayeraddquantity]
+* [Volume Layer to Shading Layer|Node:vop/jparker--volumelayertoshadinglayer]
+* [Volume Layer Pack|Node:vop/jparker--volumelayerpack]
+* [Volume Layer Unpack|Node:vop/jparker--volumelayerunpack]
+* [Volume Layer Flatten|Node:vop/jparker--volumelayerflatten]

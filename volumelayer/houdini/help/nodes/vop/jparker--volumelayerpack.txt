@@ -1,0 +1,24 @@
+= Volume Layer Pack =
+
+"""Combine standard Houdini VEX shader inputs and create a VolumeLayer struct output."""
+
+@inputs
+F:
+    BSDF component input
+
+extinction:
+    Total extinction (density) input.  You need to ensure that the BSDF input already has the correct albedo computed relative to the extinction, which is a sum of scattering+absorption.  This value should be the unitless value before dPdZ is applied.
+
+Ce:
+    Emission coefficient.  This is the unitless value before dPdz is applied.
+
+@related
+
+* [Volume Layer Merge|Node:vop/jparker--volumelayermerge]
+* [Volume Layer Shader|Node:vop/jparker--volumelayershader]
+* [Volume Layer Mix|Node:vop/jparker--volumelayermix]
+* [Volume Layer Add Quantity|Node:vop/jparker--volumelayeraddquantity]
+* [Volume Layer Compute Lighting|Node:vop/jparker--volumelayercomputelighting]
+* [Volume Layer to Shading Layer|Node:vop/jparker--volumelayertoshadinglayer]
+* [Volume Layer Unpack|Node:vop/jparker--volumelayerunpack]
+* [Volume Layer Flatten|Node:vop/jparker--volumelayerflatten]

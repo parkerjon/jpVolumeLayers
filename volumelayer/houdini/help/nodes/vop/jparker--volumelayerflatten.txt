@@ -1,0 +1,24 @@
+= Volume Layer Flatten =
+
+"""Flattens a VolumeLayer struct into Houdini VEX material outputs."""
+
+@outputs
+F:
+    BSDF component
+
+Of:
+    Opacity component
+
+Ce:
+    Emission component
+
+@related
+
+* [Volume Layer Merge|Node:vop/jparker--volumelayermerge]
+* [Volume Layer Shader|Node:vop/jparker--volumelayershader]
+* [Volume Layer Mix|Node:vop/jparker--volumelayermix]
+* [Volume Layer Add Quantity|Node:vop/jparker--volumelayeraddquantity]
+* [Volume Layer Compute Lighting|Node:vop/jparker--volumelayercomputelighting]
+* [Volume Layer to Shading Layer|Node:vop/jparker--volumelayertoshadinglayer]
+* [Volume Layer Pack|Node:vop/jparker--volumelayerpack]
+* [Volume Layer Unpack|Node:vop/jparker--volumelayerunpack]

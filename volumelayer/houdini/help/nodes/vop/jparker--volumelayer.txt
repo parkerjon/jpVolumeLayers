@@ -1,0 +1,65 @@
+= Volume Layer Shader =
+
+#icon: path/to/icon
+
+"""Construct a volume layer shader."""
+
+== Overview ==
+
+This operator creates a VolumeLayer base shader that can be used in a network to correctly and efficiently combine with other VolumeLayer shader types.
+
+Houdini's own shading layer nodes do not combine volume shaders in a physically correct way:
+- Density must be added together before opacity is computed. In the Volume Shader nodes that come with Houdini, the opacity is calculated per-shading layer, which when combined results in incorrect shading.
+- BSDF combinations should be weighted by relative extinction values, which is not possible when opacity is pre-calculated per-shading layer.
+
+To correct this, VolumeLayer struct-based nodes combine properties prior to computing opacity.  Modifying shader properties by wiring VolumeLayer struct-based nodes directly together maintains the accuracy of the shader network operations.
+== Tips ==
+
+- Add a [Volume Layer Compute Lighting|jparker--volumelayercomputelighting] node to the VOP network and wire the VolumeLayer output into it to extract the final F, Ce, Cd and Of output values.
+- Use the [Volume Layer Merge|jparker--volumelayermerge] node to combine separate Volume Layer Shader nodes in a physically correct way.
+- If you need more control, use the [Volume Layer Mix|jparker--volumelayermix] or [Volume Layer Add Quantity|jparker--volumelayeraddquantity] nodes to combine volume layer properties in other ways.
+
+@inputs
+density:
+    Base material density.  Scattering, absorption and emission are scaled by this value.
+
+F:
+    Overrides the embedded BSDF with a connected BSDF.
+
+@parameters
+
+Label:
+    #id: label
+
+    Shading component label.
+
+Scattering:
+    #id: scatter
+
+    Scattering coefficient.  How much light is scattered by the material per-unit distance.
+
+Scattering Direction:
+    #id: phase
+
+    Anisotropic direction bias.  How strongly light is scattered back towards or away from the light source direction.  Range is (-1, 1) 
+
+Absorption:
+    #id: absorb
+
+    Absorption coefficient.  How much light is absorbed by the material per-unit distance.
+
+Emission:
+    #id: emit
+
+    Emission coefficient.  How much light is emitted by the material per-unit distance.
+
+@related
+
+* [Volume Layer Merge|Node:vop/jparker--volumelayermerge]
+* [Volume Layer Mix|Node:vop/jparker--volumelayermix]
+* [Volume Layer Add Quantity|Node:vop/jparker--volumelayeraddquantity]
+* [Volume Layer Compute Lighting|Node:vop/jparker--volumelayercomputelighting]
+* [Volume Layer to Shading Layer|Node:vop/jparker--volumelayertoshadinglayer]
+* [Volume Layer Pack|Node:vop/jparker--volumelayerpack]
+* [Volume Layer Unpack|Node:vop/jparker--volumelayerunpack]
+* [Volume Layer Flatten|Node:vop/jparker--volumelayerflatten]

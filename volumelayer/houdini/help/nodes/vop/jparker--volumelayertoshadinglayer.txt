@@ -1,0 +1,22 @@
+= Volume Layer Add Quantity =
+
+"""Add a component property to an input VolumeLayer struct."""
+
+== Overview ==
+
+This operator takes a VolumeLayer struct as input and converts it to a standard Houdini shading layer struct.
+
+@inputs
+volumelayer:
+    VolumeLayer to convert to shading layer
+
+@related
+
+* [Volume Layer Merge|Node:vop/jparker--volumelayermerge]
+* [Volume Layer Shader|Node:vop/jparker--volumelayershader]
+* [Volume Layer Mix|Node:vop/jparker--volumelayermix]
+* [Volume Layer Add Quantity|Node:vop/jparker--volumelayeraddquantity]
+* [Volume Layer Compute Lighting|Node:vop/jparker--volumelayercomputelighting]
+* [Volume Layer Pack|Node:vop/jparker--volumelayerpack]
+* [Volume Layer Unpack|Node:vop/jparker--volumelayerunpack]
+* [Volume Layer Flatten|Node:vop/jparker--volumelayerflatten]
