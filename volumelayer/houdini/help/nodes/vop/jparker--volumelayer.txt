@@ -6,52 +6,59 @@
 
 == Overview ==
 
-This operator creates a VolumeLayer base shader that can be used in a network to correctly and efficiently combine with other VolumeLayer shader types.
+This operator creates a VolumeLayer base shader that can be used in a VOP network to correctly and efficiently combine different volume shading properties.
 
-Houdini's own shading layer nodes do not combine volume shaders in a physically correct way:
-- Density must be added together before opacity is computed. In the Volume Shader nodes that come with Houdini, the opacity is calculated per-shading layer, which when combined results in incorrect shading.
-- BSDF combinations should be weighted by relative extinction values, which is not possible when opacity is pre-calculated per-shading layer.
+Houdini's own shading layer compositing nodes do not combine volume shaders in a physically correct way.  For example:
+- In the standard volume shader nodes that are included with Houdini, opacity is computed within the VOP before being passed to the output, which when combined with the standard shading layer composite nodes results in incorrect shading. To calculate opacity correctly, density from all input volume shaders must be *added* together before opacity is computed.
+- When combining volume shaders, the BSDF contribution of each input must be weighted by the their relative extinction values, which is not possible when opacity is pre-calculated per-shading layer. 
 
-To correct this, VolumeLayer struct-based nodes combine properties prior to computing opacity.  Modifying shader properties by wiring VolumeLayer struct-based nodes directly together maintains the accuracy of the shader network operations.
-== Tips ==
+To correct these problems, nodes that work with VolumeLayer structs combine properties prior to computing opacity.  Modifying shader properties by wiring VolumeLayer struct-based nodes directly together maintains the accuracy of the shader network operations.
 
-- Add a [Volume Layer Compute Lighting|jparker--volumelayercomputelighting] node to the VOP network and wire the VolumeLayer output into it to extract the final F, Ce, Cd and Of output values.
-- Use the [Volume Layer Merge|jparker--volumelayermerge] node to combine separate Volume Layer Shader nodes in a physically correct way.
-- If you need more control, use the [Volume Layer Mix|jparker--volumelayermix] or [Volume Layer Add Quantity|jparker--volumelayeraddquantity] nodes to combine volume layer properties in other ways.
+Think of this node as a specific quantity of volumetric "stuff", with the stuff being the input density.  That stuff can interact with light by scattering it in a certain direction, absorbing it, or emit light via some other energetic process.
+
+TIP:
+    - Add a [Volume Layer Compute Lighting|jparker--volumelayercomputelighting] node to the VOP network and wire the VolumeLayer output into it to extract the final F, Ce, Cd and Of output values.
+    - Use the [Volume Layer Merge|jparker--volumelayermerge] node to combine separate Volume Layer Shader nodes in a physically correct way.
+    - If you need more control, use the [Volume Layer Mix|jparker--volumelayermix] or [Volume Layer Add Quantity|jparker--volumelayeraddquantity] nodes to combine volume layer properties in other ways.
 
 @inputs
 density:
-    Base material density.  Scattering, absorption and emission are scaled by this value.
+    Base material density, float.  Scattering, absorption and emission are scaled by this value.  If nothing is connected, the shader will use the bound "density" field of the volume, otherwise is zero.
 
 F:
-    Overrides the embedded BSDF with a connected BSDF.
+    Override the default Henyey-Greenstein phase function BSDF.  One reason to use this input is if you need to combine multiple BSDFs to achieve more complex scattering directions.  For example, a haze that has a very focused forward scattering peak that is mixed with a more general scattering direction.
 
 @parameters
 
-Label:
-    #id: label
+Density Field:
+    #id: densityfield
 
-    Shading component label.
-
+    When density is not connected, default volume field to use as density value.
+    
 Scattering:
     #id: scatter
 
-    Scattering coefficient.  How much light is scattered by the material per-unit distance.
+    Scattering coefficient.  Probability light is scattered by the material, ranging from zero to infinity, multiplied by density.
 
 Scattering Direction:
     #id: phase
 
-    Anisotropic direction bias.  How strongly light is scattered back towards or away from the light source direction.  Range is (-1, 1) 
+    Anisotropic direction bias.  How strongly light is scattered back towards or away from the light source direction.  Range is (-1, 1).
+
+Label:
+    #id: label
+
+    Shading BSDF component label.
 
 Absorption:
     #id: absorb
 
-    Absorption coefficient.  How much light is absorbed by the material per-unit distance.
+    Absorption coefficient.  Probability light is absorbed by the material, ranging from zero to infinity, multiplied by density.
 
 Emission:
     #id: emit
 
-    Emission coefficient.  How much light is emitted by the material per-unit distance.
+    Emission coefficient.  Probability light is re-emitted by the material, ranging from zero to infinity, multiplied by density.
 
 @related
 

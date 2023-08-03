@@ -19,4 +19,3 @@ volumelayer:
 * [Volume Layer Compute Lighting|Node:vop/jparker--volumelayercomputelighting]
 * [Volume Layer Pack|Node:vop/jparker--volumelayerpack]
 * [Volume Layer Unpack|Node:vop/jparker--volumelayerunpack]
-* [Volume Layer Flatten|Node:vop/jparker--volumelayerflatten]

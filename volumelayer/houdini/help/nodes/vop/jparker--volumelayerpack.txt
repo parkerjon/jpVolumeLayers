@@ -21,4 +21,3 @@ Ce:
 * [Volume Layer Compute Lighting|Node:vop/jparker--volumelayercomputelighting]
 * [Volume Layer to Shading Layer|Node:vop/jparker--volumelayertoshadinglayer]
 * [Volume Layer Unpack|Node:vop/jparker--volumelayerunpack]
-* [Volume Layer Flatten|Node:vop/jparker--volumelayerflatten]
