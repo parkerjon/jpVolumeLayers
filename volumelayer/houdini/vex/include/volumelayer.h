@@ -27,7 +27,6 @@ VolumeLayer buildVolumeLayer(
     return VolumeLayer(f * albedo, extinction, emit);
 }
 
-
 VolumeLayer buildVolumeLayer(
     float phase;
     vector absorb;
@@ -45,6 +44,23 @@ VolumeLayer buildVolumeLayer(
     return buildVolumeLayer(f, absorb, scatter, emit);
 }
 
+// Extract volume properties that are used as inputs to the "buildVolumeLayer" function.
+void extractVolumeLayerProperties(
+    VolumeLayer layer;
+    export bsdf f;
+    export vector scatter;
+    export vector absorb;
+    export vector emit;
+    )
+{
+    vector albedo = albedo(layer.F);
+    // anything in the albedo over 1.0 is extra emissive energy in the bsdf
+    vector f_emit = (max(albedo - 1, 0) + 1);
+    f = layer.F * (1. / albedo) * f_emit;
+    scatter = layer.density * albedo;
+    absorb = layer.density - scatter;
+    emit = layer.Ce;
+}
 
 VolumeLayer volumeLayerMerge(
     VolumeLayer a;
