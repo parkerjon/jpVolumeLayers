@@ -2,7 +2,7 @@
 *Volume Shading Toolset for Side Effects Houdini's Karma CPU and Mantra renderers*
 
 ## Contents
-- A new VOP struct type called `VolumeLayer`, with a VEX function library and VOP nodes to work with it
+- A new VOP struct type called **`VolumeLayer`**, with a VEX function library and VOP nodes to work with it
 - Utility VOP nodes to make working with volume rendering a bit easier
 
 
@@ -18,23 +18,32 @@ Atmospheres can be quite complex things to render, as there are multiple types o
 - smoke
 - clouds
 
-My initial planet renders used a volume object per effect, which was correct but could be extremely slow.  Then after some experimentation with the built in `ShadingLayer` struct-based VOPS I realized when compared to the multiple-volume object ground truth, the result was incorrect.  
+Initial planet renders used a volume object per-effect, which was correct but could be extremely slow.  Testing with the built-in **`ShadingLayer`** struct-based VOP nodes to combine different volume layers led to incorrect results when compared with the per-object method.
 
-Fortunately, BSDF types in VEX are combined in a *probabilistic* way, and so you can weight them by their relative densities, and then add them together.  The renderer will then sample each randomly based on their weight, thus emulating a proper mixing effect.
+Fortunately, BSDF types in VEX are combined in a *probabilistic* way, and so you can weight them by their relative densities and then add them together.  The renderer will then sample each randomly based on their weight, thus emulating a proper mixing effect.
 
-This method requires lots of of utility nodes wired together, so I combined them into a single struct type and codified the proper comination methods into a VEX library.
+But this method requires lots of of utility nodes wired together in a VOP network, so I created a new struct type **`VolumeLayer`** to contain `F`, `density` and `emission`, and codified the proper combination functions into a VEX library.
 
 ### How to Combine Volumes
 In VEX, given two distinct volume phenomena that you want to combine, the formula to do so is fairly straightforward:
 
 ```
-bsdf f1; bsdf f2;
+bsdf f1; bsdf f2; // phase functions
 vector d1; vector d2; // extinction (density)
 vector em1; vector em2; // emission
 
+// ***initialize volume data ***
+
+// combine densities by adding them together
 vector density = d1 + d2;
 bsdf f = (f1 * (d1 / density)) + (f2 * (d2 / density));
 vector emission = em1 + em2;
+
+// Shader exports
+// convert density to opacity *after* adding them together
+Of = 1 - exp(-max(density * dPdz, 0));
+F = f;
+Ce = emission * dPdz;
 
 ```
 ## Examples
@@ -43,7 +52,7 @@ vector emission = em1 + em2;
 
 #### Earth
 
-The following simplified render of Earth uses two **`volumelayershader`** VOPs merged together in a material network.  One `volumelayershader` VOP models blue, isotropic Rayleigh scattering for the gas.  Another `volumelayershader` VOP models dust and haze, which scatters all wavelengths of light in a strongly forward direction, away from the light source.  These two are combined by a simple `volumeshadermerge` VOP before being converted to the necessary material outputs with a `volumelayercomputelighting` VOP.
+The following simplified render of Earth uses two **`volumelayershader`** VOPs merged together in a material network.  One **`volumelayershader`** VOP models blue, isotropic Rayleigh scattering for the gas.  Another **`volumelayershader`** VOP models dust and haze, which scatters all wavelengths of light in a strongly forward direction, away from the light source.  These two are combined by a simple **`volumeshadermerge`** VOP before being converted to the necessary material outputs with a **`volumelayercomputelighting`** VOP.
 
 <img src="resources/earth3.jpg" alt="Earth 3" width="512"/> <img src="resources/earth1.jpg" alt="Earth 1" width="512"/>
 <img src="resources/earth2.jpg" alt="Earth 2" width="512"/> <img src="resources/earth4.jpg" alt="Earth 2" width="512"/>
@@ -51,7 +60,7 @@ The following simplified render of Earth uses two **`volumelayershader`** VOPs m
 
 #### Mars
 
-The render of Mars below uses three `VolumeLayer` structs to model the atmosphere.  Like the Earth render above, one struct models blue Rayleigh scattering; however, the density of the atmosphere of Mars is only 5% that of Earth at sea level, so the blue scattering is nearly invisibly.  The second `VolumeLayer` struct models the effect of dust in the atmosphere.  The dust is the red of the Martian surface, which is forward scattering, mostly red, and slightly absorbing of green and blue colors. A third `VolumeLayer` is also combined; this also models dust, but is a thicker layer lying in the low areas, such as the large canyon Valles Marinaris seen towards the center of the sphere.
+The render of Mars below uses three **`volumelayershader`** VOP nodes to model the atmosphere.  Like the Earth render above, one struct models blue Rayleigh scattering; however, the density of the atmosphere of Mars is only 5% that of Earth at sea level, so the blue scattering is nearly invisibly.  The second **`volumelayershader`** node models the effect of dust in the atmosphere.  The dust is the red of the Martian surface, which is forward scattering, mostly red, and slightly absorbing of green and blue colors. A third **`volumelayershader`** is also combined; this also models dust, but is a thicker layer lying in the low areas, such as the large canyon Valles Marinaris seen towards the center of the sphere.
 
 Again, the thickness has been exagerrated to show the effect.
 

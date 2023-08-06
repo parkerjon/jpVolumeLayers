@@ -46,7 +46,7 @@ VolumeLayer buildVolumeLayer(
 
 // Extract volume properties that are used as inputs to the "buildVolumeLayer" function.
 void extractVolumeLayerProperties(
-    VolumeLayer layer;
+    const VolumeLayer layer;
     export bsdf f;
     export vector scatter;
     export vector absorb;
@@ -63,8 +63,8 @@ void extractVolumeLayerProperties(
 }
 
 VolumeLayer volumeLayerMerge(
-    VolumeLayer a;
-    VolumeLayer b;
+    const VolumeLayer a;
+    const VolumeLayer b;
     )
 {
     vector density = a.density + b.density;
@@ -75,8 +75,8 @@ VolumeLayer volumeLayerMerge(
 
 
 VolumeLayer volumeLayerMix(
-    VolumeLayer a;
-    VolumeLayer b;
+    const VolumeLayer a;
+    const VolumeLayer b;
     float density_mix;
     float F_mix;
     float Ce_mix;
@@ -89,8 +89,8 @@ VolumeLayer volumeLayerMix(
 }
 
 VolumeLayer volumeLayerMix(
-    VolumeLayer a;
-    VolumeLayer b;
+    const VolumeLayer a;
+    const VolumeLayer b;
     float mix;
     )
 {
