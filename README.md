@@ -79,7 +79,7 @@ As we move toward the sun's POV, the bright glow around the edge is diminished b
 ### What about MaterialX and XPU?
 Because the VOP nodes in this toolset are VEX language VOPs, they will not work in Karma's XPU rendering mode.
 
-MaterialX has types that can theoretically reproduce the functionality of the `VolumeLayer` tools.  However, as of Houdini 19.5, there are some limitations that make exact reproduction of these tools impossible.
+MaterialX has types that can theoretically reproduce the functionality of the `VolumeLayer` tools.  However, as of Houdini 19.5, there are some limitations that make exact reproduction impossible.
 
 ## Licensing
 jpVolumeLayers is (c) Copyright Jon Parker.
