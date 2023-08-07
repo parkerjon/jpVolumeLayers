@@ -1,9 +1,9 @@
 ### Installation Instructions
 
-1. Copy the contents of the folder `houdini/vex_volumelayers` to your preferred location, here defined as `$TARGET_DIR`
+1. Copy the contents of the folder `houdini/volumelayers` to your preferred location, here defined as `$TARGET_DIR`
 2. vex-volumelayers can then be installed like any toolset that should be added to the Houdini path:
-   1. Modify `vex_volumelayers.json` and set the `VEX_VOLUMELAYERS` environment variable to point to `$TARGET_DIR`.
-   2. Copy `vex_volumelayers.json` into your user preferences sub-folder `houdinixx.x/packages`, or any location defined in `$HOUDINI_PACKAGES_PATH`.
+   1. Modify `volumelayers.json` and set the `VEX_VOLUMELAYERS` environment variable to point to `$TARGET_DIR`.
+   2. Copy `volumelayers.json` into your user preferences sub-folder `houdinixx.x/packages`, or any location defined in `$HOUDINI_PACKAGES_PATH`.
 
    Or:
 

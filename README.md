@@ -1,4 +1,4 @@
-# Houdini Volume Layer Shaders
+# JP Volume Layers
 *Volume Shading Toolset for Side Effects Houdini's Karma CPU and Mantra renderers*
 
 ### Contents
@@ -82,7 +82,7 @@ Because the VOP nodes in this toolset are VEX language VOPs, they will not work 
 MaterialX has types that can theoretically reproduce the functionality of the `VolumeLayer` tools.  However, as of Houdini 19.5, there are some limitations that make exact reproduction of these tools impossible.
 
 ## Licensing
-vex-volumelayers is (c) Copyright Jon Parker.
+jpVolumeLayers is (c) Copyright Jon Parker.
 
-vex-volumelayes is licensed under the MIT License.
+jpVolumeLayers is licensed under the MIT License.
 
