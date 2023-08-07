@@ -1,11 +1,11 @@
 # Houdini Volume Layer Shaders
 *Volume Shading Toolset for Side Effects Houdini's Karma CPU and Mantra renderers*
 
-## Contents
+### Contents
 - A new VOP struct type called **`VolumeLayer`**, with a VEX function library and VOP nodes to work with it
 - Utility VOP nodes to make working with volume rendering a bit easier
 
-### Why?
+### Description
 I created these tools to help me render planetary atmospheres for planetarium productions at The American Museum of Natural History.  
 
 Atmospheres can be quite complex things to render, as there are multiple types of scattering, absorption and emission effects all in the same space.  Here are some examples of atmospheric effects that can all potentially overlap on earth:
@@ -23,7 +23,9 @@ Fortunately, BSDF types in VEX are combined in a *probabilistic* way, and so you
 
 But this method requires lots of of utility nodes wired together in a VOP network, so I created a new struct type **`VolumeLayer`** to contain `F`, `density` and `emission`, and codified the proper combination functions into a VEX library.
 
-### How to Combine Volumes
+#### How to Combine Volumes
+The toolset is essentially a wrapper around the method described below.
+
 In VEX, given two distinct volume phenomena that you want to combine, the formula to do so is fairly straightforward:
 
 ```
@@ -45,6 +47,8 @@ F = f;
 Ce = emission * dPdz;
 
 ```
+
+In code this is fairly compact, but a VOP network becomes fairly messy if you need to do this with a few volume laayers.
 ## Examples
 
 *NOTE: The images below are not production renders - the atmosphere thickness is exaggerated to show the effect more clearly, and the texture resolution is very low (2048x1024).*
@@ -64,15 +68,18 @@ The render of Mars below uses three **`volumelayershader`** VOP nodes to model t
 Again, the thickness has been exagerrated to show the effect.
 
 Here we see the strong foward scattering of the dust as the crescent edge brightens considerably:
+
 <img src="resources/mars1.jpg" alt="Mars 1" width="512"/> <img src="resources/mars3.jpg" alt="Mars 3" width="512"/>
 
 As we move toward the sun's POV, the bright glow around the edge is diminished because most of the light travels away from us:
+
 <img src="resources/mars4.jpg" alt="Mars Full" width="512"/> <img src="resources/mars2.jpg" alt="Mars 2" width="512"/>
 
-### Limitations
-Because the VOP nodes are VEX, they will not work in Karma's XPU rendering mode.
 
-I previously thought MaterialX had fundamental limitations that made the above workflow impossible in that context.  However, it seems that MaterialX VOP nodes ***can*** be combined in a realistic way.  Tools to do this are TBD.
+### What about MaterialX and XPU?
+Because the VOP nodes in this toolset are VEX language VOPs, they will not work in Karma's XPU rendering mode.
+
+MaterialX has types that can theoretically reproduce the functionality of the `VolumeLayer` tools.  However, as of Houdini 19.5, there are some limitations that make exact reproduction of these tools impossible.
 
 ## Licensing
 vex-volumelayers is (c) Copyright Jon Parker.
