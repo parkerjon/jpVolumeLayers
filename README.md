@@ -5,7 +5,6 @@
 - A new VOP struct type called **`VolumeLayer`**, with a VEX function library and VOP nodes to work with it
 - Utility VOP nodes to make working with volume rendering a bit easier
 
-
 ### Why?
 I created these tools to help me render planetary atmospheres for planetarium productions at The American Museum of Natural History.  
 
@@ -74,4 +73,9 @@ As we move toward the sun's POV, the bright glow around the edge is diminished b
 Because the VOP nodes are VEX, they will not work in Karma's XPU rendering mode.
 
 I previously thought MaterialX had fundamental limitations that made the above workflow impossible in that context.  However, it seems that MaterialX VOP nodes ***can*** be combined in a realistic way.  Tools to do this are TBD.
+
+## Licensing
+vex-volumelayers is (c) Copyright Jon Parker.
+
+vex-volumelayes is licensed under the MIT License.
 
