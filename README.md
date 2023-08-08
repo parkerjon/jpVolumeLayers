@@ -48,14 +48,14 @@ Ce = emission * dPdz;
 
 ```
 
-In code this is fairly compact, but a VOP network becomes fairly messy if you need to do this with a few volume laayers.
+In code this is fairly compact, but a VOP network becomes fairly messy if you need to do this with a few volume layers.
 ## Examples
 
 *NOTE: The images below are not production renders - the atmosphere thickness is exaggerated to show the effect more clearly, and the texture resolution is very low (2048x1024).*
 
 #### Earth
 
-The following simplified render of Earth uses two **`volumelayershader`** VOPs merged together in a material network.  One **`volumelayershader`** VOP models blue, isotropic Rayleigh scattering for the gas.  Another **`volumelayershader`** VOP models dust and haze, which scatters all wavelengths of light in a strongly forward direction, away from the light source.  These two are combined by a simple **`volumeshadermerge`** VOP before being converted to the necessary material outputs with a **`volumelayercomputelighting`** VOP.
+The following simplified render of Earth uses two **`volumelayershader`** VOPs merged together in a material network.  One **`volumelayershader`** VOP models blue, isotropic Rayleigh scattering for the gas.  Another **`volumelayershader`** VOP models dust and haze, which scatters all wavelengths of light in a strongly forward biased direction, away from the light source.  These two are combined by a simple **`volumeshadermerge`** VOP before being converted to the necessary material outputs with a **`volumelayercomputelighting`** VOP.
 
 <img src="resources/earth3.jpg" alt="Earth 3" width="512"/> <img src="resources/earth1.jpg" alt="Earth 1" width="512"/>
 <img src="resources/earth2.jpg" alt="Earth 2" width="512"/> <img src="resources/earth4.jpg" alt="Earth 2" width="512"/>

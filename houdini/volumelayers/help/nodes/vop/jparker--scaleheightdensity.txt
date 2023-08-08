@@ -1,0 +1,27 @@
+= Scale Height Density =
+
+""" Computes exponential density profile from altitude and scale height."""
+
+== Overview ==
+
+This operator generates a density profile that falls off exponentially from the zero altitude to infinity.  Typical fog shaders in computer graphics are a type of this density behavior.
+
+As an example, in the context of atmospheric rendering, the atmosphere isn't uniform; it varies in terms of factors like temperature, density, and composition as you move upwards from the surface. Scale height is a way to quantify this change. It represents the vertical distance over which a particular property of the atmosphere decreases by a factor of e (approximately 2.71828), which is the base of natural logarithms.
+
+For more information on scale height, see:
+
+[Scale Height (Wikipedia)|https://en.wikipedia.org/wiki/Scale_height]
+
+@inputs
+
+altitude:
+    On Earth, altitude above sea level.  On rocky planets this is mean surface height.  On gas giants this is the distance from the center of the planet at which the atmosphere equals one bar of pressure.
+
+h:
+    Scale height value.  This is the density halfway point: half of the integrated total density is below this altitude, and half is above.  Smaller values will make the falloff sharper, and larger values will make it softer.
+
+@outputs
+
+density:
+    Computed density value.
+
