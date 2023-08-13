@@ -6,7 +6,7 @@
 
 == Overview ==
 
-This operator creates a VolumeLayer base shader that can be used in a VOP network to correctly and efficiently combine different volume shading properties.
+This operator creates a VolumeLayer base shader that can be used in a VOP network to correctly and efficiently combine different volume mediums.
 
 Houdini's own shading layer compositing nodes do not combine volume shaders in a physically correct way.  For example:
 - In the standard volume shader nodes that are included with Houdini, opacity is computed within the VOP before being passed to the output, which when combined with the standard shading layer composite nodes results in incorrect shading. To calculate opacity correctly, density from all input volume shaders must be *added* together before opacity is computed.
@@ -14,7 +14,7 @@ Houdini's own shading layer compositing nodes do not combine volume shaders in a
 
 To correct these problems, nodes that work with VolumeLayer structs combine properties prior to computing opacity.  Modifying shader properties by wiring VolumeLayer struct-based nodes directly together maintains the accuracy of the shader network operations.
 
-Think of this node as a specific quantity of volumetric "stuff", with the stuff being the input density.  That stuff can interact with light by scattering it in a certain direction, absorbing it, or emit light via some other energetic process.
+Think of this node as a specific volumetric medium.  That medium has a density, and can interact with light by scattering it in a certain direction, absorbing it, or emit light via some other energetic process.
 
 TIP:
     - Add a [Volume Layer Compute Lighting|jparker--volumelayercomputelighting] node to the VOP network and wire the VolumeLayer output into it to extract the final F, Ce, Cd and Of output values.
