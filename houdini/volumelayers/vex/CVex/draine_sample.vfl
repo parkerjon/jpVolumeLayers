@@ -1,0 +1,143 @@
+/*
+ * SPDX-FileCopyrightText: Copyright (c) <2023> NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ */
+
+// [Jendersie and d'Eon 2023]
+//   SIGGRAPH 2023 Talks
+//   https://doi.org/10.1145/3587421.3595409
+
+// EVAL and SAMPLE for the Draine (and therefore Cornette-Shanks) phase function
+//   g = HG shape parameter
+//   a = "alpha" shape parameter
+
+// Warning: these functions don't special case isotropic scattering and can numerically fail for certain inputs
+
+// https://research.nvidia.com/labs/rtr/approximate-mie/
+
+/* GLSL code:
+
+// sample: (sample an exact deflection cosine)
+//   xi = a uniform random real in [0,1]
+float sampleDraineCos(in float xi, in float g, in float a)
+{
+    const float g2 = g * g;
+	const float g3 = g * g2;
+	const float g4 = g2 * g2;
+	const float g6 = g2 * g4;
+	const float pgp1_2 = (1 + g2) * (1 + g2);
+	const float T1 = (-1 + g2) * (4 * g2 + a * pgp1_2);
+	const float T1a = -a + a * g4;
+	const float T1a3 = T1a * T1a * T1a;
+	const float T2 = -1296 * (-1 + g2) * (a - a * g2) * (T1a) * (4 * g2 + a * pgp1_2);
+	const float T3 = 3 * g2 * (1 + g * (-1 + 2 * xi)) + a * (2 + g2 + g3 * (1 + 2 * g2) * (-1 + 2 * xi));
+	const float T4a = 432 * T1a3 + T2 + 432 * (a - a * g2) * T3 * T3;
+	const float T4b = -144 * a * g2 + 288 * a * g4 - 144 * a * g6;
+	const float T4b3 = T4b * T4b * T4b;
+	const float T4 = T4a + sqrt(-4 * T4b3 + T4a * T4a);
+	const float T4p3 = pow(T4, 1.0 / 3.0);
+	const float T6 = (2 * T1a + (48 * pow(2, 1.0 / 3.0) *
+		(-(a * g2) + 2 * a * g4 - a * g6)) / T4p3 + T4p3 / (3. * pow(2, 1.0 / 3.0))) / (a - a * g2);
+	const float T5 = 6 * (1 + g2) + T6;
+	return (1 + g2 - pow(-0.5 * sqrt(T5) + sqrt(6 * (1 + g2) - (8 * T3) / (a * (-1 + g2) * sqrt(T5)) - T6) / 2., 2)) / (2. * g);
+}
+
+// Translation from paper:
+float sampleDrain
+*/
+
+#include "math.h"
+#include "pbr.h"
+
+#include "draine.h"
+
+float sample_draine(float xi; float g; float a; export float t)
+{
+
+}
+
+void sample_hg(float sy; float g; export float y; export float pdf)
+{
+	float g2 = g*g;
+
+	y = (1-g2) / (1 - g + 2*g*sy);
+
+	pdf = y;
+
+	y *= y;
+	y = 0.25F * (1 + g2 - y) / g + 0.5;
+
+	pdf *= pdf * pdf;
+	pdf = (1 - g2) / pdf;
+	pdf *= 0.5*pdf;
+}
+
+cvex draine_sample(
+        export int flags = 0;
+
+	vector u = 0;
+	float sx = 0;
+	float sy = 0;
+	int bounces = 0;
+
+	export vector refl = 1;
+	export vector v = 0;
+	export int bouncetype = 0;
+	export float pdf = 0;
+	
+	int mybounces = 0;
+	float phase = 0;
+	float alpha = 0
+	)
+{
+    if (bounces & mybounces)
+    {
+	float	y = sy;
+
+	if (phase != 0)
+	{
+	    float g = clamp(phase, -.9999999, .9999999);
+		float a = max(alpha, 0);
+
+
+//		sample_hg(sy, g, y, pdf);
+
+		y = 0.5 * sample_draine_cos(sy, g, a) + 0.5;
+		pdf = eval_draine_pdf(sy, g, a);
+		pdf *= 0.5;
+		
+	}
+	else
+	    pdf = 0.5;
+
+	bouncetype = mybounces;
+
+	float z = 2*y - 1;
+	float w = 2*sqrt(y*(1-y));
+	v = set(w*cos(2*PI*sx), w*sin(2*PI*sx), z);
+
+	vector framex, framey;
+	makebasis(framex, framey, u, {1,0,0});
+
+	v = v.x*framex + v.y*framey - v.z*u;
+    }
+}
+
