@@ -61,7 +61,8 @@ pdf *= 1. / (4*pi);
 */
 
 #include "pbr.h"
-#include "draine.h"
+
+#include "draine_bsdf.h"
 
 float henyeygreenstein(float g; float u)
 {
@@ -93,7 +94,7 @@ cvex draine_eval(
 	if (phase != 0)
 	{
 		float a = max(alpha, 0.0);
-	    float g = clamp(phase, -1, 1);
+	    float g = clamp(phase, -.9999999, .9999999);
 	    float g2 = g*g;
 	    float costheta = -dot(u, v);
 		

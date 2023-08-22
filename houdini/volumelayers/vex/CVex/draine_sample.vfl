@@ -67,12 +67,7 @@ float sampleDrain
 #include "math.h"
 #include "pbr.h"
 
-#include "draine.h"
-
-float sample_draine(float xi; float g; float a; export float t)
-{
-
-}
+#include "draine_bsdf.h"
 
 void sample_hg(float sy; float g; export float y; export float pdf)
 {
@@ -123,21 +118,21 @@ cvex draine_sample(
 		y = 0.5 * sample_draine_cos(sy, g, a) + 0.5;
 		pdf = eval_draine_pdf(sy, g, a);
 		pdf *= 0.5;
-		
+
 	}
 	else
 	    pdf = 0.5;
 
-	bouncetype = mybounces;
+		bouncetype = mybounces;
 
 	float z = 2*y - 1;
-	float w = 2*sqrt(y*(1-y));
-	v = set(w*cos(2*PI*sx), w*sin(2*PI*sx), z);
+		float w = 2*sqrt(y*(1-y));
+		v = set(w*cos(2*PI*sx), w*sin(2*PI*sx), z);
 
-	vector framex, framey;
-	makebasis(framex, framey, u, {1,0,0});
+		vector framex, framey;
+		makebasis(framex, framey, u, {1,0,0});
 
-	v = v.x*framex + v.y*framey - v.z*u;
+		v = v.x*framex + v.y*framey - v.z*u;
     }
 }
 
