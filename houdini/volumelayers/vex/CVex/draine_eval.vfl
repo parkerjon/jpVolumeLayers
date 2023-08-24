@@ -1,79 +1,40 @@
 /*
- * SPDX-FileCopyrightText: Copyright (c) <2023> NVIDIA CORPORATION & AFFILIATES. All rights reserved.
- * SPDX-License-Identifier: MIT
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
- * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
- * DEALINGS IN THE SOFTWARE.
- */
+MIT License
 
-// [Jendersie and d'Eon 2023]
-//   SIGGRAPH 2023 Talks
-//   https://doi.org/10.1145/3587421.3595409
+Copyright (c) 2023 Jon Parker
 
-// EVAL and SAMPLE for the Draine (and therefore Cornette-Shanks) phase function
-//   g = HG shape parameter
-//   a = "alpha" shape parameter
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-// Warning: these functions don't special case isotropic scattering and can numerically fail for certain inputs
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-// Take from: https://research.nvidia.com/labs/rtr/approximate-mie/
-
-/* GLSL code
-// eval:
-//   u = dot(prev_dir, next_dir)
-float evalDraine(in float u, in float g, in float a)
-{
-    return ((1 - g*g)*(1 + a*u*u))/(4.*(1 + (a*(1 + 2*g*g))/3.) * c_pi * pow(1 + g*g - 2*g*u,1.5));
-}
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 */
 
 /*
-//Translate Draine formula to compare with code above:
-float eval = (1 / 4*pi) * ((1 - g*g) / pow(1 + g*g - 2*g*u, 1.5)) * ((1 + a * (u*u)) / (1 + a * (1 + 2*(g*g)) / 3);
+Draine BSDF evaluation function derived from GLSL code provided here:
+  https://research.nvidia.com/labs/rtr/approximate-mie/
 
-// Now reorganize it
-
-*/
-
-/*
-Translate HG formula from paper to compare with Houdini version:
-float costheta = cos(wi, wo);
-float g2 = g*g;
-pdf = 1 + g2 - 2*g*costheta;
-pdf *= sqrt(pdf);
-pdf = (1 - g2) / pdf;
-pdf *= 1. / (4*pi);
+Citation:
+[Jendersie and d'Eon 2023]
+  SIGGRAPH 2023 Talks
+  https://doi.org/10.1145/3587421.3595409
 */
 
 #include "pbr.h"
 
-#include "draine_bsdf.h"
-
-float henyeygreenstein(float g; float u)
-{
-	float pdf;
-	float g2 = g * g;
-	pdf = 1 + g2 - 2*g*u;
-	pdf *= sqrt(pdf);
-	pdf = (1 - g2) / pdf;
-	pdf *= 0.5;
-	return pdf;
-}
+#include "draine_utils.h"
 
 cvex draine_eval(
 	vector u = 0;
