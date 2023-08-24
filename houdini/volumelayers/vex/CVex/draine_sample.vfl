@@ -60,13 +60,14 @@ cvex draine_sample(
 	    float g = clamp(phase, -.9999999, .9999999);
 		float a = max(alpha, 0);
 
-		float y = 0.5 * sample_draine_cos(sy, g, a) + 0.5;
-		pdf = eval_draine_pdf(sy, g, a);
+		float y = sample_draine_cos(sy, g, a);
+		pdf = eval_draine_pdf(y, g, a);
 		pdf *= 0.5;
 
 		bouncetype = mybounces;
 
-		float z = 2*y - 1;
+		float z = y;
+		y = 0.5 * y + 0.5;
 		float w = 2*sqrt(y*(1-y));
 		v = set(w*cos(2*PI*sx), w*sin(2*PI*sx), z);
 

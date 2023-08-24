@@ -52,8 +52,6 @@ cvex draine_eval(
 {
     if (bounces & mybounces)
     {
-	if (phase != 0)
-	{
 		float a = max(alpha, 0.0);
 	    float g = clamp(phase, -.9999999, .9999999);
 	    float g2 = g*g;
@@ -63,11 +61,8 @@ cvex draine_eval(
 
 		// vs. 1 / 4pi  from the paper
 	    pdf *= 0.5;
-	}
-	else
-	    pdf = 0.5;
 
-	eval = pdf;
-	refl = 1;
+		eval = pdf;
+		refl = 1;
     }
 }
