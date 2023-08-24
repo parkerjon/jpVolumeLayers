@@ -6,9 +6,9 @@
 - Utility VOP nodes to make working with volume rendering a bit easier
 
 ### Description
-I created these tools to help me render planetary atmospheres for planetarium productions at The American Museum of Natural History.  
+I created these tools to help me render planetary atmospheres for planetarium productions at The American Museum of Natural History in New York (AMNH).
 
-Atmospheres can be quite complex things to render, as there are multiple types of scattering, absorption and emission effects all in the same space.  Here are some examples of atmospheric effects that can all potentially overlap on earth:
+Atmospheres can be quite complex things to render, as there are multiple types of scattering, absorption and emission effects all in the same space.  Here are some examples of atmospheric mediums that can all potentially overlap on earth:
 - dust
 - gas
 - haze
@@ -17,7 +17,7 @@ Atmospheres can be quite complex things to render, as there are multiple types o
 - smoke
 - clouds
 
-Initial planet renders used a volume object per-effect, which was correct but could be extremely slow.  Testing with the built-in **`ShadingLayer`** struct-based VOP nodes to combine different volume layers led to incorrect results when compared with the per-object method.
+Initial planet renders at AMNH used a volume object per-effect, which was correct but could be extremely slow.  Testing with the built-in **`ShadingLayer`** struct-based VOP nodes to combine different volume layers led to incorrect results when compared with the per-object method.
 
 Fortunately, BSDF types in VEX are combined in a *probabilistic* way, and so you can weight them by their relative densities and then add them together.  The renderer will then sample each randomly based on their weight, thus emulating a proper mixing effect.
 
@@ -26,7 +26,7 @@ But this method requires lots of of utility nodes wired together in a VOP networ
 #### How to Combine Volumes
 The toolset is essentially a wrapper around the method described below.
 
-In VEX, given two distinct volume phenomena that you want to combine, the formula to do so is fairly straightforward:
+In VEX, given two distinct volumetric mediums that you want to combine, the formula to do so is fairly straightforward:
 
 ```
 bsdf f1; bsdf f2; // phase functions
