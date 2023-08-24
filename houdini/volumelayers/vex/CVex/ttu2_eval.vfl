@@ -82,8 +82,10 @@ cvex ttu2_eval(
     if (bounces & mybounces)
     {
 	    float costheta = -dot(u, v);
+		float g_1 = max(phase1, 0);
+		float g_2 = min(phase2, 0);
 		
-		pdf = weight * ultraspherical_eval_pdf(phase1, costheta) + (1 - weight) * ultraspherical_eval_pdf(phase2, costheta);
+		pdf = weight * ultraspherical_eval_pdf(g_1, costheta) + (1 - weight) * ultraspherical_eval_pdf(g_2, costheta);
 
 		pdf *= 0.5;
 		eval = pdf;

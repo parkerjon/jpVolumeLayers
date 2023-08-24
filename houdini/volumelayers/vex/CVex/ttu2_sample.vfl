@@ -92,7 +92,7 @@ cvex ttu2_sample(
 {
     if (bounces & mybounces)
     {
-		float g = sy < weight ? phase1 : phase2;
+		float g = sy < weight ? max(phase1, 0) : min(phase2, 0);
 	    g = clamp(g, -1, 1);
 		float g2 = g*g;
 
