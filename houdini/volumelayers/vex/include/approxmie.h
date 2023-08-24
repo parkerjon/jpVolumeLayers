@@ -43,7 +43,7 @@ void approxmie_remap_diameter(const float diameter; export float ghg; export flo
     float d = clamp(diameter, 0, 50);
 
     float logd = log(d);
-    // small particles, diameter <= 0.1 μm
+    // small particles, diameter <= 0.1μm
     if (d <= 0.1)
     {
         ghg = 13.8 * d * d;
@@ -51,7 +51,7 @@ void approxmie_remap_diameter(const float diameter; export float ghg; export flo
         a = 250;
         wd = 0.252977 - 312.983 * pow(d, 4.3);
     }
-    // mid-range particles, diameter 0.1 μm < d < 1.5 μm
+    // mid-range particles, diameter 0.1μm < d < 1.5μm
     else if (d < 1.5)
     {
         ghg = 0.862 - 0.143 * (logd * logd);
@@ -59,7 +59,7 @@ void approxmie_remap_diameter(const float diameter; export float ghg; export flo
         a = 250;
         wd = 0.146209 * cos(3.38707 * logd + 2.11193) + 0.316072 + 0.0778917 * logd;
     }
-    // mid-range particles, diameter 1.5 μm <= d < 5μm
+    // mid-range particles, diameter 1.5μm <= d < 5μm
     else if (d < 5)
     {
         ghg = 0.0604931 * log(logd) + 0.940256;
@@ -84,7 +84,7 @@ bsdf draine_bsdf(const float g; const float a; const string label)
 
 bsdf draine_bsdf(const float g; const float a)
 {
-    return draine_bsdf(g, a, "volume");
+    return cvex_bsdf("draine_eval", "draine_sample", "label", "volume", "phase", g, "alpha", a);
 }
 
 bsdf cornetteshanks_bsdf(const float g; const string label)
@@ -94,7 +94,7 @@ bsdf cornetteshanks_bsdf(const float g; const string label)
 
 bsdf cornetteshanks_bsdf(const float g)
 {
-    return cornetteshanks_bsdf(g, "volume");
+    return cvex_bsdf("draine_eval", "draine_sample", "label", "volume", "phase", g, "alpha", 1);
 }
 
 // Fog bsdf referenced in paper
@@ -133,8 +133,7 @@ bsdf rayleigh_bsdf(const string label)
 
 bsdf rayleigh_bsdf()
 {
-    return rayleigh_bsdf("volume");
+    return cvex_bsdf("draine_eval", "draine_sample", "label", "volume", "phase", 0, "alpha", 1);
 }
-
 
 #endif
