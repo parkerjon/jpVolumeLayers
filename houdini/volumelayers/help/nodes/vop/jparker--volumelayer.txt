@@ -70,3 +70,4 @@ Emission:
 * [Volume Layer Pack|Node:vop/jparker--volumelayerpack]
 * [Volume Layer Unpack|Node:vop/jparker--volumelayerunpack]
 * [Volume Layer Flatten|Node:vop/jparker--volumelayerflatten]
+* [Volume Layer Adjust Multiscatter|Node:vop/jparker--volumelayeradjustmultiscatter]

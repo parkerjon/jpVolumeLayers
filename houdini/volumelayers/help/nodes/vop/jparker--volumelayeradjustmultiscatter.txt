@@ -1,0 +1,39 @@
+= Volume Layer Add Quantity =
+
+""" Adjusts volume layer properties in indirect bounces. """
+
+== Overview ==
+
+This operator takes a VolumeLayer struct as input and modifies extinction and BSDF albedo in indirect bounces.  Lowering the extinction and increasing the albedo can add more softness to volume lighting without increasing render time, as opposed to increasing the number of indirect bounces.
+
+@inputs
+volumelayer:
+    VolumeLayer to modify
+
+@parameters
+
+Contribution Modifier:
+    #id: contributionmodifier
+
+    Multiply BSDF albedo by this amount for every indirect ray bounce.
+
+Extinction Modifier:
+    #id: extinctionmodifier
+
+    Multiply apparent extinction (density) by this amount for every indirect ray bounce.
+
+Modifier Start Level:
+    #id: modifierstartlevel
+
+    Minimum indirect bounce level to apply the contribution and extinction modifiers at.  Zero means the first indirect bounce onwards is affected.
+
+@related
+
+* [Volume Layer Merge|Node:vop/jparker--volumelayermerge]
+* [Volume Layer Shader|Node:vop/jparker--volumelayershader]
+* [Volume Layer Mix|Node:vop/jparker--volumelayermix]
+* [Volume Layer Compute Lighting|Node:vop/jparker--volumelayercomputelighting]
+* [Volume Layer to Shading Layer|Node:vop/jparker--volumelayertoshadinglayer]
+* [Volume Layer Pack|Node:vop/jparker--volumelayerpack]
+* [Volume Layer Unpack|Node:vop/jparker--volumelayerunpack]
+* [Volume Layer Add Quantity|Node:vop/jparker--volumelayeraddquantity]
