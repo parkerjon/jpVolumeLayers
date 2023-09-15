@@ -1,0 +1,50 @@
+= PBR Two-Term Ultraspherical Phase Function =
+
+""" Generates a scattering phase function BSDF that simulates interstellar dust scattering."""
+
+== Overview ==
+
+This operator implements the two-term ultraspherical phase function, which approximates scattering by dust grains in the interstellar medium.
+
+For more information see:
+
+[A new analytical scattering phase function for interstellar dust|https://arxiv.org/abs/2202.01607]
+
+Citation:
+
+    A new analytical scattering phase function for interstellar dust
+    Maarten  Baes, Peter  Camps, Anand Utsav  Kapoor
+    A&A 659 A149 (2022)
+    DOI: 10.1051/0004-6361/202142437
+
+
+TIP:
+    To apply physically meaningful values to the parameters, start by selecting one of the presets in the "bandpreset" parameter.
+
+
+@parameters
+
+Component Label:
+    #id: label
+    BSDF component label.
+    
+Band Preset:
+    #id: bandpreset
+    Applies a preset for a specific electromagnetic frequency.
+
+Forward Phase:
+    #id: g1
+    Forward scattering phase.  Larger values scatter more strongly forward.
+
+Backward Phase:
+    #id: g2
+    Backscattering phase.  Lower values scatter more strongly back towards the viewer.
+
+Weight:
+    #id: y
+    How much to weight towards the forward or backward phase.  A value of 1 weights the forward phase by 100%.
+
+@outputs
+
+f:
+    BSDF
