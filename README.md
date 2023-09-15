@@ -5,6 +5,7 @@
 - A new VOP struct type called **`VolumeLayer`**, with a VEX function library and VOP nodes to work with it
 - Utility VOP nodes to make working with volume rendering a bit easier
 - A Rayleigh scattering phase function BSDF
+- A two-term ultraspherical scattering phase function BSDF, for modelling interstellar dust scatterin
 
 ### Description
 I created these tools to help me render planetary atmospheres for planetarium productions at The American Museum of Natural History.  
