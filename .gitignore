@@ -2,3 +2,5 @@
 rendergallery.db*
 backup
 galleries
+
+resources/**.pdf

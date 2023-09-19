@@ -5,12 +5,15 @@
 - A new VOP struct type called **`VolumeLayer`**, with a VEX function library and VOP nodes to work with it
 - Utility VOP nodes to make working with volume rendering a bit easier
 - A Rayleigh scattering phase function BSDF
-- A two-term ultraspherical scattering phase function BSDF, for modelling interstellar dust scatterin
+- A two-term ultraspherical scattering phase function BSDF, for modelling interstellar dust scattering
 
-### Description
-I created these tools to help me render planetary atmospheres for planetarium productions at The American Museum of Natural History in New York (AMNH).
+Help has been added to each Houdini node included here.  See the node's help description for more information on each tool.
 
-Atmospheres can be quite complex things to render, as there are multiple types of scattering, absorption and emission effects all in the same space.  Here are some examples of atmospheric mediums that can all potentially overlap on earth:
+### Volume Layers Description
+I created these tools to improve rendering of astrophysical-related scenes, originally for planetarium productions at The American Museum of Natural History in New York (AMNH).
+
+Atmospheres can be quite complex mediums to render, as there are multiple types of scattering, absorption and emission effects all in the same space.  Here are some examples that can all potentially overlap on Earth:
+
 - dust
 - gas
 - haze
@@ -19,11 +22,11 @@ Atmospheres can be quite complex things to render, as there are multiple types o
 - smoke
 - clouds
 
-Initial planet renders at AMNH used a volume object per-effect, which was correct but could be extremely slow.  Testing with the built-in **`ShadingLayer`** struct-based VOP nodes to combine different volume layers led to incorrect results when compared with the per-object method.
+Initial renders of planets that I did at AMNH used a volume object per-effect, which resulted in correct renders, but could be extremely slow.  Testing with the built-in **`ShadingLayer`** struct-based VOP nodes to combine different volume layers led to incorrect results when compared with the per-object method.
 
 Fortunately, BSDF types in VEX are combined in a *probabilistic* way, and so you can weight them by their relative densities and then add them together.  The renderer will then sample each randomly based on their weight, thus emulating a proper mixing effect.
 
-But this method requires lots of of utility nodes wired together in a VOP network, so I created a new struct type **`VolumeLayer`** to contain `F`, `density` and `emission`, and codified the proper combination functions into a VEX library.
+This method requires lots of of utility nodes wired together in a VOP network, so I created a new struct type **`VolumeLayer`** to contain `F`, `density` and `emission`, and codify the proper combination functions into a VEX library.
 
 #### How to Combine Volumes
 The toolset is essentially a wrapper around the method described below.
@@ -47,10 +50,10 @@ vector emission = em1 + em2;
 Of = 1 - exp(-max(density * dPdz, 0));
 F = f;
 Ce = emission * dPdz;
-
 ```
 
-In code this is fairly compact, but a VOP network becomes fairly messy if you need to do this with a few volume layers.
+In code this is fairly compact, but a VOP network using only the built-in nodes becomes messy very quickly if you need to do this several times chained together.
+
 ## Examples
 
 *NOTE: The images below are not production renders - the atmosphere thickness is exaggerated to show the effect more clearly, and the texture resolution is very low (2048x1024).*
@@ -86,5 +89,4 @@ MaterialX has types that can theoretically reproduce the functionality of the `V
 ## Licensing
 jpVolumeLayers is (c) Copyright Jon Parker.
 
-jpVolumeLayers is licensed under the MIT License.
-
+See [LICENSE](LICENSE)
