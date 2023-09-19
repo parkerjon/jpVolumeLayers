@@ -1,0 +1,54 @@
+/*
+MIT License
+
+Copyright (c) 2023 Jon Parker
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+//  Rayleigh Phase Function
+
+/*Citation
+
+Frisvad, J. R. (2011). Importance sampling the Rayleigh phase function. Optical Society of America. Journal A:
+Optics, Image Science, and Vision, 28(12), 2436-2441. https://doi.org/10.1364/JOSAA.28.002436
+*/
+
+#include "pbr.h"
+
+cvex rayleigh_eval(
+	vector u = 0;
+	vector v = 0;
+	int bounces = 0;
+	int reverse = 0;
+	export vector refl = 0;
+	export vector eval = 0;
+	export float pdf = 0;
+	
+	int mybounces = 0;
+	)
+{
+    if (bounces & mybounces)
+    {
+	    float costheta = -dot(u, v);
+		pdf = 0.375 * (1 + (costheta*costheta));
+		eval = pdf;
+		refl = 1;
+    }
+}

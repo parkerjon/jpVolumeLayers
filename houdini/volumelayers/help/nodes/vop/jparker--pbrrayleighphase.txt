@@ -1,0 +1,28 @@
+= PBR Rayleigh Phase Function =
+
+""" Generates a Rayleigh scattering phase function BSDF."""
+
+== Overview ==
+
+This operator implements the Rayleigh scattering phase function. This is the most common phase function used to simulate the scattering of light in the Earth's atmosphere.
+
+For more information see:
+
+[Rayleigh Scattering (Wikipedia)|https://en.wikipedia.org/wiki/Rayleigh_scattering]
+
+Citation:
+
+Frisvad, J. R. (2011). Importance sampling the Rayleigh phase function. Optical Society of America. Journal A:
+Optics, Image Science, and Vision, 28(12), 2436-2441. [https://doi.org/10.1364/JOSAA.28.002436]
+
+
+@parameters
+
+Component Label:
+    #id: label
+    BSDF component label.
+
+@outputs
+
+f:
+    BSDF
