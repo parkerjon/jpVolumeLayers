@@ -126,14 +126,14 @@ bsdf approxmie_bsdf(const float diameter)
 // The supplemental paper describes two ways to realize Rayleigh scattering,
 // using Draine directly with g=0 and a=1, or using the approx-mie method
 // below with values of ghg=0, a=∞, gd=0 and wd=0.25.
-bsdf rayleigh_bsdf(const string label)
-{
-    return cvex_bsdf("draine_eval", "draine_sample", "label", label, "phase", 0, "alpha", 1);
-}
+// bsdf rayleigh_bsdf(const string label)
+// {
+//     return cvex_bsdf("draine_eval", "draine_sample", "label", label, "phase", 0, "alpha", 1);
+// }
 
-bsdf rayleigh_bsdf()
-{
-    return cvex_bsdf("draine_eval", "draine_sample", "label", "volume", "phase", 0, "alpha", 1);
-}
+// bsdf rayleigh_bsdf()
+// {
+//     return cvex_bsdf("draine_eval", "draine_sample", "label", "volume", "phase", 0, "alpha", 1);
+// }
 
 #endif

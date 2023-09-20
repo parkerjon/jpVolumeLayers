@@ -32,9 +32,14 @@ Citation:
   https://doi.org/10.1145/3587421.3595409
 */
 
-#include "pbr.h"
+float eval_draine_pdf(float u; float g; float a)
+{
+    float g2 = g*g;
+    float temp = 1 + g2 - (g+g) * u;
+    temp *= sqrt(temp);
+	return ((1 - g2) / temp) * ((1 + a * u*u) / (1 + a * (1 + (g2+g2)) / 3));
+}
 
-#include "draine_utils.h"
 
 cvex draine_eval(
 	vector u = 0;
@@ -59,7 +64,7 @@ cvex draine_eval(
 		
 		pdf = eval_draine_pdf(costheta, g, a);
 
-		// vs. 1 / 4pi  from the paper
+		// vs. 1 / 4pi  from the paper since Houdini's system normalizes it externally
 	    pdf *= 0.5;
 
 		eval = pdf;
