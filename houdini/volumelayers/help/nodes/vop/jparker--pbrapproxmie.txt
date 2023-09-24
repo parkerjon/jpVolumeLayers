@@ -1,0 +1,47 @@
+= PBR Approximate Mie Phase Function =
+
+""" Generates a scattering phase function BSDF that simulates interstellar dust scattering."""
+
+== Overview ==
+
+This operator implements the Approximate Mie phase function, which models anisotropic scattering of droplets in a medium. This BSDF is useful when you want to model the appearance of clouds.
+
+The model is implemented as a mix between a Henyey-Greenstein phase function and a Draine phase function. For more information see:
+
+[An Approximate Mie Scattering Function for Fog and Cloud Rendering (NVIDIA)|https://research.nvidia.com/labs/rtr/approximate-mie/]
+
+
+@parameters
+
+Component Label:
+    #id: label
+    BSDF component label.
+    
+Parameter Mode:
+    #id: mode
+    Which parameters to use do define the shape of the PSDF. "Droplet" is a fitting of the "aniso" parameters, using droplet size as input.
+
+Droplet Size:
+    #id: dropletsize
+    Average diameter, in micrometers, of the droplets that define the medium.   Smaller droplets scatter light more evenly in all directions, while larger droplets scatter light mostly in the forward direction away from the light.  Values above 50 micrometers are ill-defined by the model, so the parameter range is clamped to this amount.
+
+Primary Anisotropy:
+    #id: ghg
+    Henyey Greenstein scattering phase.  Larger values scatter more strongly forward.
+
+Secondary Anisotropy:
+    #id: gd
+    Draine scattering phase.  Lower values scatter more strongly back towards the viewer.
+
+Secondary Weight:
+    #id: weight
+    Blend value between primary and secondary scattering.
+
+Secondary Shape:
+    #id: shape
+    Shaping of the Draine phase function.  Larger values will bias the scattering towards both the forward and backward directions, while reducing the visible contribution at right angles to the viewer's viewing direction of the light.
+
+@outputs
+
+f:
+    BSDF
