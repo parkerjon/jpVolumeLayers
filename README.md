@@ -6,6 +6,9 @@
 - Utility VOP nodes to make working with volume rendering a bit easier
 - A Rayleigh scattering phase function BSDF
 - A two-term ultraspherical scattering phase function BSDF, for modelling interstellar dust scattering
+- "An Approximate Mie Scattering Function" BSDF created by NVIDIA to better render clouds.  For more info go to NVIDIA's page here:
+
+[An Approximate Mie Scattering Function for Fog and Cloud Rendering](https://research.nvidia.com/labs/rtr/approximate-mie/)
 
 Help has been added to each Houdini node included here.  See the node's help description for more information on each tool.
 
