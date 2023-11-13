@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "env": [
         {
-            "VEX_VOLUMELAYERS": "$HOME/volumelayers"
+            "VEX_VOLUMELAYERS": "$HOUDINI_PACKAGE_PATH/volumelayers"
         }
     ]
 }
