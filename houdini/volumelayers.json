@@ -1,7 +1,7 @@
 {
     "hpath": "$VEX_VOLUMELAYERS",
     "load_package_once": true,
-    "enable": "houdini_version >= '17.5' and houdini_version < '20.1'",
+    "enable": "houdini_version >= '17.5' and houdini_version < '22.0'",
     "version": "1.0.0",
     "env": [
         {
